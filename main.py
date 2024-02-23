@@ -1,5 +1,8 @@
 import os
 import random
+import requests
+import pandas as pd
+import time
 from datetime import datetime
 from flask import Flask, redirect, url_for, render_template, request, send_file
 from sqlalchemy.sql import func
@@ -11,6 +14,83 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app.config["SQLALCHEMY_DATABASE_URI"]="sqlite:///"+os.path.join(basedir, "database.sqlite")
 
 db = SQLAlchemy(app)
+
+
+def scrape_api():
+    url = "https://cate-search.hktvmall.com/query/products"
+    headers = {
+        "Accept": "application/json, text/javascript, */*; q=0.01",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "Origin": "https://www.hktvmall.com",
+        "Referer": "https://www.hktvmall.com/",
+        "Sec-Ch-Ua": "\"Microsoft Edge\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\"",
+        "Sec-Ch-Ua-Mobile": "?0",
+        "Sec-Ch-Ua-Platform": "\"Windows\"",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0"
+    }
+
+    current_page = 0
+    page_size = 60
+    all_products = []
+
+    while current_page<2:
+        payload = {
+            "query": ":relevance:zone:personalcarenhealth:street:main:",
+            "currentPage": current_page,
+            "pageSize": page_size,
+            "pageType": "searchResult",
+            "lang": "en",
+            "CSRFToken": "fe21ee82-09e6-4b40-9ab1-c1875f151c07"
+        }
+
+        response = requests.post(url, headers=headers, data=payload)
+        data = response.json()
+
+        # Extract and process the data as needed
+        product_list = data.get('products', [])
+        print(product_list)
+        if not product_list:
+            break  # No more products, exit the loop
+
+        for product in product_list:
+            # Extract relevant information
+            image_url = product.get('images', [{}])[0].get('url', '')
+            brand_product_name = product.get('brand', '') + ' ' + product.get('name', '')
+            sales_number = product.get('salesVolume', 0)
+            review_number = product.get('numberOfReviews', 0)
+            promotion_price = product.get('price', {}).get('formattedValue', '')
+            original_price = product.get('price', {}).get('value', 0)
+
+            # Output the information
+            print(f"{'-'*20}\n"
+                  f"image_url: {image_url}\n"
+                  f"brand_product_name: {brand_product_name}\n"
+                  f"sales_number: {sales_number}\n"
+                  f"review_number: {review_number}\n"
+                  f"promotion_price: {promotion_price}\n"
+                  f"original_price: {original_price}\n")
+
+        all_products.extend(product_list)
+        current_page += 1
+
+        # time.sleep(2)
+
+    # Save data to a DataFrame and Excel file
+    data_dict = {"data": all_products}
+    df = pd.DataFrame.from_dict(data_dict['data'])
+    df.to_excel("personal_health_care.xlsx", index=False)
+
+# if __name__ == "__main__":
+#       while True:
+#         scrape_api()
+#         print("Waiting for 5 minutes before starting again...")
+#         time.sleep(300)  # Sleep for 5 minutes (300 seconds)
+#         print("Restarting the scraping process.")
 
 class RandomNumber(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -41,11 +121,15 @@ def display_results():
     return render_template("results.html", context=context)
 
 @app.route('/scrape/', methods=['GET','POST'])
-def scrper():
+def scrapper():
     if request.method == "POST":
         """
             Call the scrapper function here
+            scrape_api(
         """
+        print('scrappin___ _ _ _ _ please wait...')
+        scrape_api()
+        p
         number = random.randint(0,59)
         context = {
             "result": number
