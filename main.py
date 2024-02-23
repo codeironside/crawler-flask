@@ -14,7 +14,16 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app.config["SQLALCHEMY_DATABASE_URI"]="sqlite:///"+os.path.join(basedir, "database.sqlite")
 
 db = SQLAlchemy(app)
-
+class RandomNumber(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    number = db.Column(db.Integer)
+    file = db.Column(db.String)
+    date_time = db.Column(db.DateTime(timezone=True),
+                          server_default=func.now())
+    
+    @property
+    def cleaned_date_time(self):
+        return f"{self.date_time.day}/{self.date_time.month}/{self.date_time.year}"
 
 def scrape_api():
     url = "https://cate-search.hktvmall.com/query/products"
@@ -53,7 +62,6 @@ def scrape_api():
 
         # Extract and process the data as needed
         product_list = data.get('products', [])
-        print(product_list)
         if not product_list:
             break  # No more products, exit the loop
 
@@ -83,7 +91,13 @@ def scrape_api():
     # Save data to a DataFrame and Excel file
     data_dict = {"data": all_products}
     df = pd.DataFrame.from_dict(data_dict['data'])
-    df.to_excel("personal_health_care.xlsx", index=False)
+    file = os.path.join(basedir, "personal_health_care.xlsx")
+    df.to_excel(file, index=False)
+    new_random_number = RandomNumber(file=file)
+    db.session.add(new_random_number)
+    db.session.commit()
+
+    return file
 
 # if __name__ == "__main__":
 #       while True:
@@ -92,16 +106,16 @@ def scrape_api():
 #         time.sleep(300)  # Sleep for 5 minutes (300 seconds)
 #         print("Restarting the scraping process.")
 
-class RandomNumber(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    number = db.Column(db.Integer)
-    file = db.Column(db.String)
-    date_time = db.Column(db.DateTime(timezone=True),
-                          server_default=func.now())
+# class RandomNumber(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     number = db.Column(db.Integer)
+#     file = db.Column(db.String)
+#     date_time = db.Column(db.DateTime(timezone=True),
+#                           server_default=func.now())
     
-    @property
-    def cleaned_date_time(self):
-        return f"{self.date_time.day}/{self.date_time.month}/{self.date_time.year}"
+#     @property
+#     def cleaned_date_time(self):
+#         return f"{self.date_time.day}/{self.date_time.month}/{self.date_time.year}"
 
 @app.route('/',methods=['GET','POST'])
 def home():
@@ -118,7 +132,7 @@ def display_results():
         "results":results
     }
     
-    return render_template("results.html", context=context)
+    return render_template("results.html",context=context, file=file)
 
 @app.route('/scrape/', methods=['GET','POST'])
 def scrapper():
@@ -127,17 +141,19 @@ def scrapper():
             Call the scrapper function here
             scrape_api(
         """
-        print('scrappin___ _ _ _ _ please wait...')
+        print('scrapping___ _ _ _ _ please wait...')
         scrape_api()
-        p
-        number = random.randint(0,59)
-        context = {
-            "result": number
-        }
-        new_random_number = RandomNumber(number=number, file=os.path.join(basedir, "media/hello.txt"))
-        db.session.add(new_random_number)
-        db.session.commit()
-        return render_template("scrapper_result.html", context=context)
+        print('done_ _  _ _ scrapping ')
+        # number = random.randint(0,59)
+        # context = {
+        #     "result": number
+        # }
+        # new_random_number = RandomNumber(number=number, file=os.path.join(basedir, "media/hello.txt"))
+        # db.session.add(new_random_number)
+        # db.session.commit()
+        file = scrape_api()
+        # return render_template("scrapper_result.html", context=context)
+        return render_template("scrapper_result.html",context=context, file=file)
     return render_template("scrapper.html")
 
 @app.route("/download/<path:file>/", methods=["GET"])
