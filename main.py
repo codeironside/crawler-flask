@@ -14,10 +14,9 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app.config["SQLALCHEMY_DATABASE_URI"]="sqlite:///"+os.path.join(basedir, "database.sqlite")
 
 db = SQLAlchemy(app)
-class RandomNumber(db.Model):
+class Scrapper(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    number = db.Column(db.Integer)
-    file = db.Column(db.String)
+    file_name_location = db.Column(db.String)
     date_time = db.Column(db.DateTime(timezone=True),
                           server_default=func.now())
     
@@ -91,31 +90,10 @@ def scrape_api():
     # Save data to a DataFrame and Excel file
     data_dict = {"data": all_products}
     df = pd.DataFrame.from_dict(data_dict['data'])
-    file = os.path.join(basedir, "personal_health_care.xlsx")
+    file = f"./results/{int(time.time())}-personal_health_care.xlsx"
     df.to_excel(file, index=False)
-    new_random_number = RandomNumber(file=file)
-    db.session.add(new_random_number)
-    db.session.commit()
-
     return file
 
-# if __name__ == "__main__":
-#       while True:
-#         scrape_api()
-#         print("Waiting for 5 minutes before starting again...")
-#         time.sleep(300)  # Sleep for 5 minutes (300 seconds)
-#         print("Restarting the scraping process.")
-
-# class RandomNumber(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     number = db.Column(db.Integer)
-#     file = db.Column(db.String)
-#     date_time = db.Column(db.DateTime(timezone=True),
-#                           server_default=func.now())
-    
-#     @property
-#     def cleaned_date_time(self):
-#         return f"{self.date_time.day}/{self.date_time.month}/{self.date_time.year}"
 
 @app.route('/',methods=['GET','POST'])
 def home():
@@ -124,35 +102,32 @@ def home():
         return render_template('index.html')
     return render_template('index.html')
 
+
 @app.route('/results/',methods=['GET'])
 def display_results():
-    results = RandomNumber.query.all()
+    results = Scrapper.query.all()
     
     context = {
         "results":results
     }
     
-    return render_template("results.html",context=context, file=file)
+    return render_template("results.html",context=context)
 
 @app.route('/scrape/', methods=['GET','POST'])
 def scrapper():
     if request.method == "POST":
-        """
-            Call the scrapper function here
-            scrape_api(
-        """
         print('scrapping___ _ _ _ _ please wait...')
         scrape_api()
         print('done_ _  _ _ scrapping ')
-        # number = random.randint(0,59)
-        # context = {
-        #     "result": number
-        # }
-        # new_random_number = RandomNumber(number=number, file=os.path.join(basedir, "media/hello.txt"))
-        # db.session.add(new_random_number)
-        # db.session.commit()
+
         file = scrape_api()
-        # return render_template("scrapper_result.html", context=context)
+        new_scrapper = Scrapper(file_name_location=file)
+        db.session.add(new_scrapper)
+        db.session.commit()
+        context = {
+            "file_name": new_scrapper.file_name_location,
+            "date_time": new_scrapper.cleaned_date_time
+        }
         return render_template("scrapper_result.html",context=context, file=file)
     return render_template("scrapper.html")
 
