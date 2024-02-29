@@ -87,7 +87,6 @@ def scrape_api():
 
             # Append the dictionary to the list
             product_data.append(product_dict)
-
             # Output the information
             print(f"{'-'*20}\n"
                 f"image_url: {image_url}\n"
