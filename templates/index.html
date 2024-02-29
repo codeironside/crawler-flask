@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Landing Page</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        display: flex;
+        justify-content: space-between;
+        margin: 50px 20px;
+      }
+
+      .statistics {
+        width: calc(45% - 20px); /* Adjusted width */
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden; /* Prevents scrolling */
+        position: relative;
+        animation: bgAnimation 20s linear infinite; /* Animated background */
+      }
+
+      @keyframes bgAnimation {
+        0% {
+          background-position: 0 0;
+        }
+        100% {
+          background-position: 100% 0;
+        }
+      }
+
+      .content {
+        width: calc(55% - 20px); /* Adjusted width */
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .statistic-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .statistic-label {
+        font-weight: bold;
+      }
+
+      .statistic-value {
+        color: #b9b0b0;
+      }
+
+      /* Header Styles */
+      header {
+        background-color: #333;
+        color: #fff;
+        padding: 15px 0;
+        text-align: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 9999;
+        justify-content: space-between;
+        transition: all 0.3s ease;
+      }
+
+      header h1 {
+        text-align: right; /* Aligns the text to the right */
+        padding-right: 20px; /* Adds spacing to the right */
+        position: right;
+        justify: right;
+      }
+
+      header h2 {
+        position: right;
+        justify: right;
+        text-align: right;
+        margin: 0;
+        display: inline;
+        cursor: pointer;
+        color: #fff;
+        transition: color 0.3s ease;
+      }
+
+      header h2:hover {
+        color: #b9b0b0;
+      }
+
+      .icon-container {
+        display: inline-block;
+        margin-right: 10px;
+      }
+
+      .icon-container i {
+        font-size: 18px;
+        color: #fff;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .icon-container i:hover {
+        transform: scale(1.2);
+        color: #b9b0b0;
+      }
+
+      /* Footer Styles */
+      footer {
+        background-color: #333;
+        color: #fff;
+        padding: 15px 0;
+        text-align: center;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        z-index: 9999;
+      }
+
+      footer p {
+        margin: 0;
+      }
+
+      /* Scraper Button */
+      .scraper-button {
+        background-color: #b9b0b0;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        display: block;
+        margin: 20px auto;
+      }
+
+      .scraper-button:hover {
+        background-color: #b9b0b0;
+      }
+
+      /* Large Image and Text Styles */
+      .large-image {
+        width: 100%;
+        height: auto;
+        margin-bottom: 30px;
+      }
+
+      .large-text {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      /* Scrollbar Styles */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #888;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="header">
+      <div class="icon-container">
+        <i class="fas fa-poll"></i>
+      </div>
+      <h2 id="results">Results</h2>
+      <div class="icon-container">
+        <i class="fas fa-sign-in-alt"></i>
+      </div>
+      <h2 id="login">Login</h2>
+      <div class="icon-container">
+        <i class="fas fa-search" id="scraper"></i>
+      </div>
+      <h2 id="scraper-label">Scraper</h2>
+    </header>
+
+    <div class="container">
+      <div class="statistics">
+        <h1>Welcome to our Crawler Landing Page</h1>
+        <canvas id="myChart"></canvas>
+      </div>
+
+      <div class="content">
+        <!-- Large images and text -->
+        <img
+          src="https://via.placeholder.com/800x400"
+          alt="Large Image 1"
+          class="large-image"
+        />
+        <h2 class="large-text">
+          I'm sorry for the overwhelming emotions I unleashed yesterday. Seeing
+          you with that person ignited a storm of feelings—helplessness,
+          inadequacy, and a sense of worthlessness. Ignoring your calls was a
+          misguided attempt to cope with the pain. The thought of asking you to
+          choose between him and me haunts me, torn between holding on and
+          letting go. The matching shoes felt like a cruel reminder of the
+          connection I feared losing. Discovering my name changed to Ayo AFIT
+          added another layer of heartache, making me question our significance.
+          The emotional turmoil is unbearable, but I don't want to let go. Can
+          we talk about the pain we're both feeling? I still love you deeply,
+          and my actions yesterday were an unjustifiable expression of that
+          pain. I'm sorry for the hurt I caused.
+        </h2>
+      </div>
+    </div>
+
+    <footer>
+      <p>© 2024 Crawler Landing Page. All rights reserved.</p>
+    </footer>
+
+    <script>
+            window.addEventListener("scroll", function () {
+              var header = document.getElementById("header");
+              if (window.scrollY > 0) {
+                header.style.backgroundColor = "#555";
+              } else {
+                header.style.backgroundColor = "#333";
+              }
+            });
+
+            document.getElementById("results").onclick = function () {
+              alert("Results clicked!");
+              // You can replace the alert with your desired action
+            };
+
+            document.getElementById("login").onclick = function () {
+              alert("Login clicked!");
+              // You can replace the alert with your desired action
+            };
+
+            document.getElementById("scraper").onclick = function () {
+              alert("Scraper clicked!");
+              // You can replace the alert with your desired action
+            };
+            // Function to fetch data from Excel file and create a bar chart
+            // Parse JSON data passed from Flask
+          const excelData = {{ excel_data | safe }};
+            //console.log(excelData)
+          // Extracting data for the chart
+      // Extracting data for the chart
+      const labels = excelData.map(entry => entry.brand_product_name);
+      const salesData = excelData.map(entry => entry.sales_number);
+      const pricesData = excelData.map(entry => entry.original_price);
+
+      // Create a bar chart using Chart.js
+      const ctx = document.getElementById('myChart').getContext('2d');
+      const myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Sales Number',
+              data: salesData,
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              borderColor: 'rgba(255, 99, 132, 1)',
+              borderWidth: 1
+            },
+            {
+              label: 'Original Price',
+              data: pricesData,
+              backgroundColor: 'rgba(54, 162, 235, 0.2)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 1
+            }
+          ]
+        },
+        options: {
+          scales: {
+            yAxes: [
+              {
+                ticks: {
+                  beginAtZero: true
+                }
+              }
+            ]
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

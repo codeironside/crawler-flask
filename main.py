@@ -64,6 +64,8 @@ def scrape_api():
         if not product_list:
             break  # No more products, exit the loop
 
+        product_data = []
+
         for product in product_list:
             # Extract relevant information
             image_url = product.get('images', [{}])[0].get('url', '')
@@ -73,16 +75,35 @@ def scrape_api():
             promotion_price = product.get('price', {}).get('formattedValue', '')
             original_price = product.get('price', {}).get('value', 0)
 
+            # Create a dictionary for the product
+            product_dict = {
+                "image_url": image_url,
+                "brand_product_name": brand_product_name,
+                "sales_number": sales_number,
+                "review_number": review_number,
+                "promotion_price": promotion_price,
+                "original_price": original_price
+            }
+
+            # Append the dictionary to the list
+            product_data.append(product_dict)
+
             # Output the information
             print(f"{'-'*20}\n"
-                  f"image_url: {image_url}\n"
-                  f"brand_product_name: {brand_product_name}\n"
-                  f"sales_number: {sales_number}\n"
-                  f"review_number: {review_number}\n"
-                  f"promotion_price: {promotion_price}\n"
-                  f"original_price: {original_price}\n")
+                f"image_url: {image_url}\n"
+                f"brand_product_name: {brand_product_name}\n"
+                f"sales_number: {sales_number}\n"
+                f"review_number: {review_number}\n"
+                f"promotion_price: {promotion_price}\n"
+                f"original_price: {original_price}\n")
+            
+        # Convert the list of dictionaries to a DataFrame
+        # df = pd.DataFrame(product_data)
 
-        all_products.extend(product_list)
+        # # Save the DataFrame to an Excel file
+        # df.to_excel("product_data.xlsx", index=False)
+
+        all_products.extend(product_data)
         current_page += 1
 
         # time.sleep(2)
@@ -97,10 +118,22 @@ def scrape_api():
 
 @app.route('/',methods=['GET','POST'])
 def home():
-    if request.method=='POST':
+    if request.method == 'POST':
         # Handle POST Request here
         return render_template('index.html')
-    return render_template('index.html')
+    
+    # Read data from the Excel file
+    excel_data = pd.read_excel("results/1709218950-personal_health_care.xlsx")  # Adjust path as needed
+
+    # Convert DataFrame to JSON format
+    excel_json = excel_data.to_json(orient='records')
+
+    # Pass the JSON data to the template
+    return render_template('index.html', excel_data=excel_json)
+    # if request.method=='POST':
+    #     # Handle POST Request here
+    #     return render_template('index.html')
+    # return render_template('index.html')
 
 
 @app.route('/results/',methods=['GET'])
