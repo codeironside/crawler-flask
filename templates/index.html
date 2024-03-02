@@ -3,129 +3,148 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Landing Page</title>
     <link
+      href="https://fonts.googleapis.com/css?family=Roboto"
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Landing Page</title>
     <style>
       body {
-        font-family: Arial, sans-serif;
-        background-color: #f2f2f2;
+        font-family: 'Roboto', sans-serif;
         margin: 0;
         padding: 0;
       }
 
-      .container {
-        display: flex;
-        justify-content: space-between;
-        margin: 50px 20px;
-      }
-
       .statistics {
-        width: calc(45% - 20px); /* Adjusted width */
-        background-color: #f9f9f9;
+        background-color: #f5f5f5; /* Lighter shade of grey */
         padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        
         overflow: hidden; /* Prevents scrolling */
         position: relative;
         animation: bgAnimation 20s linear infinite; /* Animated background */
+        text-align: center; /* Center the content */
+        padding-top: 10em; /* Add padding to avoid being covered by the header */
       }
 
-      @keyframes bgAnimation {
-        0% {
-          background-position: 0 0;
-        }
-        100% {
-          background-position: 100% 0;
-        }
-      }
-
-      .content {
-        width: calc(55% - 20px); /* Adjusted width */
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
-
+  
       h1 {
         text-align: center;
         margin-bottom: 20px;
       }
 
-      .statistic-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
+      /* Scrollable Table */
+      .scrollable-table {
+        overflow-y: auto;
       }
 
-      .statistic-label {
-        font-weight: bold;
+      table {
+
+        border-collapse: separate; /* Separate border model for individual borders */
+        border-spacing: 0; /* No spacing between cells */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add light grey box shadow */
+      }
+      
+      th {
+        font-weight: bold; /* Make table headers bold */
+      }
+      
+
+      th,
+      td {
+        padding: 12px; /* Increased padding for better spacing */
+        text-align: left;
       }
 
-      .statistic-value {
-        color: #b9b0b0;
+      th {
+        background-color: #f5f5f5; /* Lighter shade of grey for header background */
+        border: 1px #ffa07a ;
       }
 
-      /* Header Styles */
+      /* Alternate border colors for even and odd rows */
+      tr:nth-child(even) td {
+        border: 1px solid #ffa07a; /* Even row border color (Light Salmon) */
+      }
+
+      tr:nth-child(odd) td {
+        border: 1px solid #b0c4de; /* Odd row border color (Light Steel Blue) */
+      }
+
+      tr:hover {
+        background-color: #d3d3d3; /* Hover background color (Light Grey) */
+      }
+
       header {
-        background-color: #333;
-        color: #fff;
-        padding: 15px 0;
-        text-align: center;
+        background-color: #f2f2f2;
+        color: #000;
+        padding: 10px 20px;
+        text-align: left;
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         z-index: 9999;
+        display: flex;
         justify-content: space-between;
+        align-items: center;
         transition: all 0.3s ease;
-      }
-
-      header h1 {
-        text-align: right; /* Aligns the text to the right */
-        padding-right: 20px; /* Adds spacing to the right */
-        position: right;
-        justify: right;
-      }
-
-      header h2 {
-        position: right;
-        justify: right;
-        text-align: right;
+    }
+    
+    header h1 {
+        font-family: 'Roboto', sans-serif;
+        font-size: 24px;
+        font-weight: bold;
         margin: 0;
-        display: inline;
-        cursor: pointer;
-        color: #fff;
-        transition: color 0.3s ease;
-      }
-
-      header h2:hover {
-        color: #b9b0b0;
-      }
-
-      .icon-container {
-        display: inline-block;
-        margin-right: 10px;
-      }
-
-      .icon-container i {
-        font-size: 18px;
-        color: #fff;
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-
-      .icon-container i:hover {
-        transform: scale(1.2);
-        color: #b9b0b0;
-      }
-
-      /* Footer Styles */
+    }
+    
+    #swapi {
+        font-family: 'Roboto', sans-serif;
+        font-size: 24px;
+        font-weight: bold;
+        margin-left: 20px;
+    }
+    
+    /* Adjust container to center the button horizontally */
+    header .h2-container {
+      display: flex;
+      align-items: center;
+      justify-content: center; /* Added this property */
+    }
+    
+    /* Remove unnecessary styles from header h2 */
+    /* Adjust container to center the button horizontally with a slight right offset */
+    header .h2-container {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start; /* Changed to flex-start for right alignment */
+      padding-left: 55em; /* Added padding to create rightward space */
+    }
+    
+    /* Remove unnecessary styles from header h2 */
+    header h2 {
+      display: none; /* Hide the original h2 element since it's not used anymore */
+    }
+    
+    /* Style the anchor tag with similar properties as the previous h2 */
+    header .h2-container a {
+      background-color: #000;
+      color: #f5f5f5;
+      padding: 10px 15px;
+      border: 1px solid #ddd; /* Simplified border declaration */
+      text-align: left;
+      font-family: 'Roboto', sans-serif;
+      font-weight: bold;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-decoration: none; /* Remove default underline from links */
+    }
+    
+    /* Hover effect for the anchor tag */
+    header .h2-container a:hover {
+      background-color: #ddd;
+      color: #000;
+    }
+    
       footer {
         background-color: #333;
         color: #fff;
@@ -138,102 +157,25 @@
         z-index: 9999;
       }
 
-      footer p {
-        margin: 0;
-      }
-
-      /* Scraper Button */
-      .scraper-button {
-        background-color: #b9b0b0;
-        color: #fff;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        display: block;
-        margin: 20px auto;
-      }
-
-      .scraper-button:hover {
-        background-color: #b9b0b0;
-      }
-
-      /* Large Image and Text Styles */
-      .large-image {
-        width: 100%;
-        height: auto;
-        margin-bottom: 30px;
-      }
-
-      .large-text {
-        font-size: 24px;
-        font-weight: bold;
-        text-align: center;
-        margin-bottom: 30px;
-      }
-
-      /* Scrollbar Styles */
-      ::-webkit-scrollbar {
-        width: 10px;
-      }
-
-      ::-webkit-scrollbar-track {
-        background: #f1f1f1;
-      }
-
-      ::-webkit-scrollbar-thumb {
-        background: #888;
-      }
-
-      ::-webkit-scrollbar-thumb:hover {
-        background: #555;
-      }
     </style>
   </head>
   <body>
-    <header id="header">
-      <div class="icon-container">
-        <i class="fas fa-poll"></i>
+    <header>
+      <h1 id="swapi">SWAPIFY</h1>
+      <div class="h2-container">
+        <a href="{{ url_for('display_results') }}" id="scraper-label">Scraper</a>
       </div>
-      <h2 id="results">Results</h2>
-      <div class="icon-container">
-        <i class="fas fa-sign-in-alt"></i>
-      </div>
-      <h2 id="login">Login</h2>
-      <div class="icon-container">
-        <i class="fas fa-search" id="scraper"></i>
-      </div>
-      <h2 id="scraper-label">Scraper</h2>
     </header>
 
-    <div class="container">
-      <div class="statistics">
-        <h1>Welcome to our Crawler Landing Page</h1>
-        <canvas id="myChart"></canvas>
-      </div>
-
+    <div class="statistics">
       <div class="content">
-        <!-- Large images and text -->
-        <img
-          src="https://via.placeholder.com/800x400"
-          alt="Large Image 1"
-          class="large-image"
-        />
-        <h2 class="large-text">
-          I'm sorry for the overwhelming emotions I unleashed yesterday. Seeing
-          you with that person ignited a storm of feelings—helplessness,
-          inadequacy, and a sense of worthlessness. Ignoring your calls was a
-          misguided attempt to cope with the pain. The thought of asking you to
-          choose between him and me haunts me, torn between holding on and
-          letting go. The matching shoes felt like a cruel reminder of the
-          connection I feared losing. Discovering my name changed to Ayo AFIT
-          added another layer of heartache, making me question our significance.
-          The emotional turmoil is unbearable, but I don't want to let go. Can
-          we talk about the pain we're both feeling? I still love you deeply,
-          and my actions yesterday were an unjustifiable expression of that
-          pain. I'm sorry for the hurt I caused.
-        </h2>
+        <!-- Content here -->
+        <h1>Welcome to our Crawler Landing Page</h1>
+        <div class="scrollable-table">
+          <table id="excel-table">
+            <!-- Table body will be populated dynamically using JavaScript -->
+          </table>
+        </div>
       </div>
     </div>
 
@@ -242,96 +184,27 @@
     </footer>
 
     <script>
-                  window.addEventListener("scroll", function () {
-                    var header = document.getElementById("header");
-                    if (window.scrollY > 0) {
-                      header.style.backgroundColor = "#555";
-                    } else {
-                      header.style.backgroundColor = "#333";
-                    }
-                  });
+      // Parse the JSON data passed from Flask
+      const excelData = {{ excel_data | safe }};
 
-                  document.getElementById("results").onclick = function () {
-                    alert("Results clicked!");
-                    // You can replace the alert with your desired action
-                  };
+      // Get the table element
+      const table = document.getElementById('excel-table');
 
-                  document.getElementById("login").onclick = function () {
-                    alert("Login clicked!");
-                    // You can replace the alert with your desired action
-                  };
+      // Create table header
+      const headerRow = table.createTHead().insertRow();
+      for (const key in excelData[0]) {
+        const th = document.createElement('th');
+        th.textContent = key;
+        headerRow.appendChild(th);
+      }
 
-                  document.getElementById("scraper").onclick = function () {
-                    alert("Scraper clicked!");
-                    // You can replace the alert with your desired action
-                  };
-                  // Function to fetch data from Excel file and create a bar chart
-                  // Parse JSON data passed from Flask
-                const excelData = {{ excel_data | safe }};
-                  //console.log(excelData)
-                  const salesData = excelData.map(entry => entry.sales_number);
-                  const pricesData = excelData.map(entry => entry.original_price);
-      const ctx = document.getElementById('myChart').getContext('2d');
-      const myChart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-          labels: "data visualisation",
-          datasets: [
-            {
-              label: 'Sales Number',
-              data: salesData,
-              backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-              ],
-              borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-              ],
-              borderWidth: 1
-            },
-            {
-              label: 'Original Price',
-              data: pricesData,
-              backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-              ],
-              borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-              ],
-              borderWidth: 1
-            }
-          ]
-        },
-        options: {
-          cutoutPercentage: 30, // Adjust the percentage as needed to leave space between slices
-          scales: {
-            yAxes: [
-              {
-                ticks: {
-                  beginAtZero: true
-                }
-              }
-            ]
-          }
+      // Create table body
+      const tbody = table.createTBody();
+      excelData.forEach(row => {
+        const tr = tbody.insertRow();
+        for (const key in row) {
+          const td = tr.insertCell();
+          td.textContent = row[key];
         }
       });
     </script>
