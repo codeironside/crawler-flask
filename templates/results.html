@@ -8,187 +8,173 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="">
     <style>
+      /* General reset and font setup */
       body {
-        font-family: Arial, sans-serif;
-        background-color: #f2f2f2;
-        margin: 0;
-        padding: 0;
-        overflow: hidden; /* Prevent scrolling */
-    }
-    
-    header {
-        background-color: #f2f2f2;
-        color: #000;
-        padding: 10px 20px;
-        text-align: left;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        z-index: 9999;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        transition: all 0.3s ease;
-    }
-    
-    header h1 {
-        font-family: 'Roboto', sans-serif;
-        font-size: 24px;
-        font-weight: bold;
-        margin: 0;
-    }
-    
-    #swapi {
-        font-family: 'Roboto', sans-serif;
-        font-size: 24px;
-        font-weight: bold;
-        margin-left: 20px;
-    }
-    
-    /* Adjust container to center the button horizontally */
-    header .h2-container {
-      display: flex;
-      align-items: center;
-      justify-content: center; /* Added this property */
-    }
-    
-    /* Remove unnecessary styles from header h2 */
-    /* Adjust container to center the button horizontally with a slight right offset */
-    header .h2-container {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start; /* Changed to flex-start for right alignment */
-      padding-left: 55em; /* Added padding to create rightward space */
-    }
-    
-    /* Remove unnecessary styles from header h2 */
-    header h2 {
-      display: none; /* Hide the original h2 element since it's not used anymore */
-    }
-    
-    /* Style the anchor tag with similar properties as the previous h2 */
-    header .h2-container a {
-      background-color: #000;
-      color: #f5f5f5;
-      padding: 10px 15px;
-      border: 1px solid #ddd; /* Simplified border declaration */
-      text-align: left;
-      font-family: 'Roboto', sans-serif;
-      font-weight: bold;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      text-decoration: none; /* Remove default underline from links */
-    }
-    
-    /* Hover effect for the anchor tag */
-    header .h2-container a:hover {
-      background-color: #ddd;
-      color: #000;
-    }
-    
-    footer {
-      background-color: #333;
-      color: #fff;
-      padding: 15px 0;
-      text-align: center;
-      position: fixed;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      z-index: 9999;
-    }
-
-    .container {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 100px; /* Adjust margin to leave space for header */
-        overflow-x: hidden; /* Prevent horizontal scrolling */
-        padding-top: 1em;
-    }
-    
-    .scrape-panel {
-      width: 25%; /* Adjust width as needed */
-      height: 100vh; /* Take full height of viewport */
-      background-color: #f2f2f2; /* Background color similar to header */
-      padding: 20px;
-      display: flex; /* Use flex display */
-      overflow: hidden; /* Prevent scrolling */
-  }
-  
-    
-  .scrape-button {
-    text-align: center;
-    padding: 15px 30px; /* Increased padding for better readability */
-    background-color: #000;
-    border: none;
-    border-radius: 5px;
-    color: #fff;
-    /* Increased font size for better readability */
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-
-  .scrape-button:hover {
-    background-color: #444;
-  }
-    
-  .table-container {
-    width: 75%; /* Adjust width as needed */
-    max-height: calc(100vh - 150px); /* Adjust based on your header and footer height */
-    background-color: #fff;
-    padding: 20px;
-    overflow-y: auto; /* Enable vertical scrolling */
-}
-
-table {
-    width: 100%;
-    border-collapse: separate; /* Separate border model for individual borders */
-    border-spacing: 0; /* No spacing between cells */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add light grey box shadow */
-}
-
-th {
-    font-weight: bold; /* Make table headers bold */
-}
-
-th,
-td {
-    padding: 12px; /* Increased padding for better spacing */
-    text-align: left;
-}
-
-th {
-    background-color: #f5f5f5; /* Lighter shade of grey for header background */
-    border: 3px #ffa07a ;
-}
-
-/* Alternate border colors for even and odd rows */
-tr:nth-child(even) td {
-    border: 3px solid #ffa07a; /* Even row border color (Light Salmon) */
-}
-
-tr:nth-child(odd) td {
-    border: 3px solid #b0c4de; /* Odd row border color (Light Steel Blue) */
-}
-
-tr:hover {
-    background-color: #d3d3d3; /* Hover background color (Light Grey) */
-}
-
+          font-family: Arial, sans-serif;
+          background-color: #f2f2f2;
+          margin: 0;
+          padding: 0;
+      }
+      
+      /* Header styling */
+      header {
+          background-color: #f2f2f2;
+          color: #000;
+          padding: 10px 20px;
+          text-align: left;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          z-index: 9999;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          transition: all 0.3s ease;
+      }
+      
+      /* Logo styling */
+      #logo {
+          font-family: 'Roboto', sans-serif;
+          font-size: 24px;
+          font-weight: bold;
+          margin: 0;
+          width: 100px;
+          height: 44px;
+      }
+      
+      /* Scraper styling */
+      #scraper {
+          font-family: 'Roboto', sans-serif;
+          font-size: 24px;
+          font-weight: bold;
+          margin-left: 20px;
+      }
+      
+      /* Container for header buttons */
+      header .h2-container {
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+      }
+      
+      /* Styling for header links */
+      header .h2-container a {
+          background-color: #000;
+          color: #f5f5f5;
+          padding: 10px 15px;
+          border: 1px solid #ddd;
+          font-family: 'Roboto', sans-serif;
+          font-weight: bold;
+          text-transform: uppercase;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+          text-decoration: none;
+      }
+      
+      header .h2-container a:hover {
+          background-color: #ddd;
+          color: #000;
+      }
+      
+      /* Footer styling */
+      footer {
+          background-color: #333;
+          color: #fff;
+          padding: 15px 0;
+          text-align: center;
+          position: fixed;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          z-index: 9999;
+      }
+      
+      /* Main content container */
+      .container {
+          padding-top: 100px;
+          padding-bottom: 50px;
+      }
+      
+      /* Scraper panel styling */
+      .scrape-panel {
+          background-color: #f2f2f2;
+          padding: 20px;
+          margin: 10px;
+      }
+      
+      /* Scrape button styling */
+      .scrape-button {
+          text-align: center;
+          padding: 15px 30px;
+          background-color: #000;
+          border: none;
+          border-radius: 5px;
+          color: #fff;
+          font-size: 18px;
+          font-weight: bold;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+          width: 100%; /* Make button full width */
+          margin-top: 10px; /* Add spacing */
+      }
+      
+      .scrape-button:hover {
+          background-color: #444;
+      }
+      
+      /* Table container styling */
+      .table-container {
+          background-color: #fff;
+          padding: 20px;
+          overflow-x: auto; /* Allow horizontal scrolling on smaller screens */
+      }
+      
+      /* Table styling */
+      table {
+          width: 100%;
+          border-collapse: collapse;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      
+      th, td {
+          padding: 12px;
+          text-align: left;
+      }
+      
+      th {
+          background-color: #f5f5f5;
+          border: 1.5px solid #b0c4de;
+      }
+      
+      tr:nth-child(even) td {
+          border: 1.5px solid #ddd;
+      }
+      
+      tr:nth-child(odd) td {
+          border: 1.5px solid #ffc0cb;
+      }
+      
+      tr:hover {
+          background-color: #d3d3d3;
+      }
+      
     </style>
 </head>
 <body>
-  <header>
-    <h1 id="swapi">SWAPIFY</h1>
-    <div class="h2-container">
-      <a href="{{ url_for('home') }}" id="scraper-label">Home</a>
-    </div>
-  </header>
-  
+    <!-- HTML code -->
+    <header>
+      <!-- Use an img tag with an alt attribute instead of an h1 tag -->
+      <img
+        src="{{ url_for('static', filename='swapi.png') }}"
+        alt="SWAPIFY"
+        id="logo"
+      />
+      <div class="h2-container">
+        <a href="{{ url_for('home') }}" id="scraper-label">Home</a>
+      </div>
+    </header>
+
 
   <div class="container">
     <div class="scrape-panel">
@@ -217,7 +203,8 @@ tr:hover {
     </div>
 
     <footer>
-        <p>Merged Page Footer</p>
+      <p>© 2024 Crawler Landing Page. All rights reserved.</p>
     </footer>
+
 </body>
 </html>
