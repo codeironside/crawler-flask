@@ -47,7 +47,7 @@ def scrape_api():
     page_size = 60
     all_products = []
 
-    while current_page<2:
+    while current_page<1:
         payload = {
             "query": ":relevance:zone:personalcarenhealth:street:main:",
             "currentPage": current_page,
@@ -952,37 +952,37 @@ def display_results():
 def scrapper():
     print('Scraping... please wait...')
     file = scrape_api()  # Assuming this function returns the file path
-    file2 = scrape_2()
-    file3 = scrape_3()
-    file4 = scrape_4()
-    file5 = scrape_5()
-    file6 = scrape_6()
-    file7 = scrape_7()
-    file8 = scrape_8()
-    file9 = scrape_9()
-    file10 = scrape_10()
+    # file2 = scrape_2()
+    # file3 = scrape_3()
+    # file4 = scrape_4()
+    # file5 = scrape_5()
+    # file6 = scrape_6()
+    # file7 = scrape_7()
+    # file8 = scrape_8()
+    # file9 = scrape_9()
+    # file10 = scrape_10()
     print('Scraping done')
 
     new_scrapper = Scrapper(file_name_location=file)
-    new_scrapper2 = Scrapper(file_name_location=file2)
-    new_scrapper3 = Scrapper(file_name_location=file3)
-    new_scrapper4 = Scrapper(file_name_location=file4)
-    new_scrapper5 = Scrapper(file_name_location=file5)
-    new_scrapper6 = Scrapper(file_name_location=file6)
-    new_scrapper7 = Scrapper(file_name_location=file7)
-    new_scrapper8 = Scrapper(file_name_location=file8)
-    new_scrapper9 = Scrapper(file_name_location=file9)
-    new_scrapper10 = Scrapper(file_name_location=file10)
-    db.session.add(new_scrapper2)
+    # new_scrapper2 = Scrapper(file_name_location=file2)
+    # new_scrapper3 = Scrapper(file_name_location=file3)
+    # new_scrapper4 = Scrapper(file_name_location=file4)
+    # new_scrapper5 = Scrapper(file_name_location=file5)
+    # new_scrapper6 = Scrapper(file_name_location=file6)
+    # new_scrapper7 = Scrapper(file_name_location=file7)
+    # new_scrapper8 = Scrapper(file_name_location=file8)
+    # new_scrapper9 = Scrapper(file_name_location=file9)
+    # new_scrapper10 = Scrapper(file_name_location=file10)
     db.session.add(new_scrapper)
-    db.session.add(new_scrapper3)
-    db.session.add(new_scrapper4)
-    db.session.add(new_scrapper5)
-    db.session.add(new_scrapper6)
-    db.session.add(new_scrapper7)
-    db.session.add(new_scrapper8)
-    db.session.add(new_scrapper9)
-    db.session.add(new_scrapper10)
+    # db.session.add(new_scrapper2)
+    # db.session.add(new_scrapper3)
+    # db.session.add(new_scrapper4)
+    # db.session.add(new_scrapper5)
+    # db.session.add(new_scrapper6)
+    # db.session.add(new_scrapper7)
+    # db.session.add(new_scrapper8)
+    # db.session.add(new_scrapper9)
+    # db.session.add(new_scrapper10)
     db.session.commit()
     return redirect(url_for('display_results'))
 
