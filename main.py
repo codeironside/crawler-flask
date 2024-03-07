@@ -13,7 +13,19 @@ home_bp = Blueprint('home',__name__)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-
+app=Flask(__name__,static_folder='static')
+app.register_blueprint(home_bp)
+app.config["SQLALCHEMY_DATABASE_URI"]="sqlite:///"+os.path.join(basedir, "database.sqlite")
+db = SQLAlchemy(app)
+class Scrapper(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    file_name_location = db.Column(db.String)
+    date_time = db.Column(db.DateTime(timezone=True),
+                          server_default=func.now())
+    
+    @property
+    def cleaned_date_time(self):
+        return f"{self.date_time.day}/{self.date_time.month}/{self.date_time.year}"
 
 
 
@@ -982,19 +994,7 @@ def scrapper():
 @app.route("/download/<path:file>/", methods=["GET"])
 def download(file):
     return send_file(file, as_attachment=True)
-app=Flask(__name__,static_folder='static')
-app.register_blueprint(home_bp)
-app.config["SQLALCHEMY_DATABASE_URI"]="sqlite:///"+os.path.join(basedir, "database.sqlite")
-db = SQLAlchemy(app)
-class Scrapper(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    file_name_location = db.Column(db.String)
-    date_time = db.Column(db.DateTime(timezone=True),
-                          server_default=func.now())
-    
-    @property
-    def cleaned_date_time(self):
-        return f"{self.date_time.day}/{self.date_time.month}/{self.date_time.year}"
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
