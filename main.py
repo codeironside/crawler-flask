@@ -4,7 +4,7 @@ import requests
 import pandas as pd
 import time
 from datetime import datetime
-from flask import Blueprint Flask, redirect, url_for, render_template, request, send_file
+from flask import Blueprint, Flask, redirect, url_for, render_template, request, send_file
 from sqlalchemy.sql import func
 from flask_sqlalchemy import SQLAlchemy
 
