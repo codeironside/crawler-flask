@@ -12,7 +12,17 @@ from flask_sqlalchemy import SQLAlchemy
 home_bp = Blueprint('home',__name__) 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
+@home_bp.route('/')
+def home():
+    if request.method == 'POST':
+        # Handle POST Request here
+        return render_template('index.html')
+    
+    # Read data from the Excel file
+    excel_data = pd.read_excel("homedata/1709218950-personal_health_care.xlsx")  # Adjust path as needed
 
+    # Convert DataFrame to JSON format and pass it to the template
+    return render_template('index.html', excel_data=excel_data.to_json(orient='records'))
 app=Flask(__name__,static_folder='static')
 app.register_blueprint(home_bp)
 app.config["SQLALCHEMY_DATABASE_URI"]="sqlite:///"+os.path.join(basedir, "database.sqlite")
@@ -937,17 +947,17 @@ def scrape_10():
     df.to_excel(file, index=False)
     return file
 # @app.route('/',methods=['GET','POST'])
-@home_bp.route('/')
-def home():
-    if request.method == 'POST':
-        # Handle POST Request here
-        return render_template('index.html')
+# @home_bp.route('/')
+# def home():
+#     if request.method == 'POST':
+#         # Handle POST Request here
+#         return render_template('index.html')
     
-    # Read data from the Excel file
-    excel_data = pd.read_excel("homedata/1709218950-personal_health_care.xlsx")  # Adjust path as needed
+#     # Read data from the Excel file
+#     excel_data = pd.read_excel("homedata/1709218950-personal_health_care.xlsx")  # Adjust path as needed
 
-    # Convert DataFrame to JSON format and pass it to the template
-    return render_template('index.html', excel_data=excel_data.to_json(orient='records'))
+#     # Convert DataFrame to JSON format and pass it to the template
+#     return render_template('index.html', excel_data=excel_data.to_json(orient='records'))
 @app.route('/results/',methods=['GET'])
 def display_results():
     results = Scrapper.query.all()
