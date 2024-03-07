@@ -4,28 +4,16 @@ import requests
 import pandas as pd
 import time
 from datetime import datetime
-from flask import Blueprint, Flask, redirect, url_for, render_template, request, send_file
+from flask import Flask, redirect, url_for, render_template, request, send_file
 from sqlalchemy.sql import func
 from flask_sqlalchemy import SQLAlchemy
 
 
-home_bp = Blueprint('home',__name__) 
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-@home_bp.route('/')
-def home():
-    if request.method == 'POST':
-        # Handle POST Request here
-        return render_template('index.html')
-    
-    # Read data from the Excel file
-    excel_data = pd.read_excel("homedata/1709218950-personal_health_care.xlsx")  # Adjust path as needed
-
-    # Convert DataFrame to JSON format and pass it to the template
-    return render_template('index.html', excel_data=excel_data.to_json(orient='records'))
 app=Flask(__name__,static_folder='static')
-app.register_blueprint(home_bp)
+basedir = os.path.abspath(os.path.dirname(__file__))
 app.config["SQLALCHEMY_DATABASE_URI"]="sqlite:///"+os.path.join(basedir, "database.sqlite")
+
 db = SQLAlchemy(app)
 class Scrapper(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -36,8 +24,6 @@ class Scrapper(db.Model):
     @property
     def cleaned_date_time(self):
         return f"{self.date_time.day}/{self.date_time.month}/{self.date_time.year}"
-
-
 
 def scrape_api():
     url = "https://cate-search.hktvmall.com/query/products"
@@ -946,18 +932,17 @@ def scrape_10():
     file = f"./results/{int(time.time())}-thirteenlandmarks.xlsx"
     df.to_excel(file, index=False)
     return file
-# @app.route('/',methods=['GET','POST'])
-# @home_bp.route('/')
-# def home():
-#     if request.method == 'POST':
-#         # Handle POST Request here
-#         return render_template('index.html')
+@app.route('/home',methods=['GET','POST'])
+def home():
+    if request.method == 'POST':
+        # Handle POST Request here
+        return render_template('index.html')
     
-#     # Read data from the Excel file
-#     excel_data = pd.read_excel("homedata/1709218950-personal_health_care.xlsx")  # Adjust path as needed
+    # Read data from the Excel file
+    excel_data = pd.read_excel("homedata/1709218950-personal_health_care.xlsx")  # Adjust path as needed
 
-#     # Convert DataFrame to JSON format and pass it to the template
-#     return render_template('index.html', excel_data=excel_data.to_json(orient='records'))
+    # Convert DataFrame to JSON format and pass it to the template
+    return render_template('index.html', excel_data=excel_data.to_json(orient='records'))
 @app.route('/results/',methods=['GET'])
 def display_results():
     results = Scrapper.query.all()
