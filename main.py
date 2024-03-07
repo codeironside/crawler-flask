@@ -4,13 +4,14 @@ import requests
 import pandas as pd
 import time
 from datetime import datetime
-from flask import Flask, redirect, url_for, render_template, request, send_file
+from flask import Blueprint Flask, redirect, url_for, render_template, request, send_file
 from sqlalchemy.sql import func
 from flask_sqlalchemy import SQLAlchemy
 
 
-
+home_bp = Blueprint('home',__name__) 
 app=Flask(__name__,static_folder='static')
+app.register_blueprint(home_bp)
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config["SQLALCHEMY_DATABASE_URI"]="sqlite:///"+os.path.join(basedir, "database.sqlite")
 
@@ -932,7 +933,8 @@ def scrape_10():
     file = f"./results/{int(time.time())}-thirteenlandmarks.xlsx"
     df.to_excel(file, index=False)
     return file
-@app.route('/home',methods=['GET','POST'])
+# @app.route('/',methods=['GET','POST'])
+@home_bp.route('/')
 def home():
     if request.method == 'POST':
         # Handle POST Request here
