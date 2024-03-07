@@ -10,8 +10,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 
 home_bp = Blueprint('home',__name__) 
-app=Flask(__name__,static_folder='static')
-app.register_blueprint(home_bp)
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config["SQLALCHEMY_DATABASE_URI"]="sqlite:///"+os.path.join(basedir, "database.sqlite")
 
@@ -991,7 +990,8 @@ def scrapper():
 @app.route("/download/<path:file>/", methods=["GET"])
 def download(file):
     return send_file(file, as_attachment=True)
-
+app=Flask(__name__,static_folder='static')
+app.register_blueprint(home_bp)
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
